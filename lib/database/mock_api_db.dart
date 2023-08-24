@@ -59,4 +59,25 @@ class QuotesDatabaseMock {
       print("Error while deleting row: $error");
     }
   }
+
+  static Future<List<Map<String, dynamic>>> getQuotesByAuthor(
+      String author) async {
+    final db = await QuotesDatabaseMock.db();
+    final List<Map<String, dynamic>> result = await db.query(
+      'quotesDb',
+      where: "author = ?",
+      whereArgs: [author],
+    );
+    return result;
+  }
+
+  static Future<List<Map<String, dynamic>>> getQuotesByTag(String tags) async {
+    final db = await QuotesDatabaseMock.db();
+    final List<Map<String, dynamic>> result = await db.query(
+      'quotesDb',
+      where: "tags = ?",
+      whereArgs: [tags],
+    );
+    return result;
+  }
 }

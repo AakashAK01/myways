@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:myways_assignment/author_screen.dart';
 import 'package:myways_assignment/database/mock_api_db.dart';
+import 'package:myways_assignment/tag_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -103,28 +105,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 const SizedBox(width: 140),
                 InkWell(
-                  onTap: () async {
-                    setState(() {
-                      isVertical = true;
-                    });
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      color: isVertical
-                          ? Color.fromARGB(255, 115, 188, 248)
-                          : Colors.white,
-                    ),
-                    height: 30,
-                    width: 30,
-                    child: Icon(
-                      Icons.vertical_distribute,
-                      size: 20,
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 15),
-                InkWell(
                   onTap: () {
                     setState(() {
                       isVertical = false;
@@ -140,6 +120,28 @@ class _HomeScreenState extends State<HomeScreen> {
                     height: 30,
                     width: 30,
                     child: const Icon(
+                      Icons.vertical_distribute,
+                      size: 20,
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 15),
+                InkWell(
+                  onTap: () async {
+                    setState(() {
+                      isVertical = true;
+                    });
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      color: isVertical
+                          ? Color.fromARGB(255, 115, 188, 248)
+                          : Colors.white,
+                    ),
+                    height: 30,
+                    width: 30,
+                    child: Icon(
                       Icons.horizontal_distribute,
                       size: 20,
                     ),
@@ -151,13 +153,14 @@ class _HomeScreenState extends State<HomeScreen> {
             Expanded(
               child: isVertical
                   ? PageView.builder(
+                      scrollDirection: Axis.vertical,
                       itemCount: _quotesList.length,
                       itemBuilder: (context, index) {
                         return Container(
                           height: 100,
                           child: ListTile(
                             title: Padding(
-                              padding: const EdgeInsets.only(top: 100.0),
+                              padding: const EdgeInsets.only(top: 140.0),
                               child: Column(
                                 children: [
                                   Text(
@@ -165,8 +168,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     style: TextStyle(
                                       fontSize: 20,
                                       color: _quotesList[index]['color'] == 'bl'
-                                          ? const Color.fromARGB(
-                                              255, 5, 73, 129)
+                                          ? Color.fromARGB(255, 5, 73, 129)
                                           : _quotesList[index]['color'] == 'pi'
                                               ? Colors.pink
                                               : Colors.green,
@@ -175,28 +177,231 @@ class _HomeScreenState extends State<HomeScreen> {
                                   SizedBox(
                                     height: 30,
                                   ),
-                                  Text(
-                                    " - ${_quotesList[index]['author']}",
-                                    style: TextStyle(
-                                      fontSize: 20,
+                                  InkWell(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  AuthorScreen(
+                                                      author: _quotesList[index]
+                                                          ['author'])));
+                                    },
+                                    child: Text(
+                                      " - ${_quotesList[index]['author']}",
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                      ),
                                     ),
                                   ),
                                   SizedBox(
                                     height: 50,
                                   ),
-                                  Container(
-                                    height: 20,
-                                    width: 120,
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(5),
-                                        color: const Color.fromARGB(
-                                            255, 93, 152, 201)),
-                                    child: Center(
-                                        child: Text(
-                                      "#motivational",
-                                      style: TextStyle(fontSize: 15),
-                                    )),
-                                  )
+                                  _quotesList.isEmpty != true
+                                      ? Column(
+                                          children: [
+                                            Row(
+                                              children: [
+                                                InkWell(
+                                                  onTap: () {
+                                                    Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (context) =>
+                                                                TagScreen(
+                                                                    tag:
+                                                                        "#motivational")));
+                                                  },
+                                                  child: Container(
+                                                    height: 20,
+                                                    width: 120,
+                                                    decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(5),
+                                                        color: Color.fromARGB(
+                                                            255,
+                                                            151,
+                                                            207,
+                                                            252)),
+                                                    child: Center(
+                                                        child: Text(
+                                                      "#motivational",
+                                                      style: TextStyle(
+                                                          fontSize: 15),
+                                                    )),
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsets.all(
+                                                      10.0),
+                                                  child: InkWell(
+                                                    onTap: () {
+                                                      Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                              builder: (context) =>
+                                                                  TagScreen(
+                                                                      tag:
+                                                                          "#truth")));
+                                                    },
+                                                    child: Container(
+                                                      height: 20,
+                                                      width: 70,
+                                                      decoration: BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(5),
+                                                          color: Color.fromARGB(
+                                                              255,
+                                                              151,
+                                                              207,
+                                                              252)),
+                                                      child: Center(
+                                                          child: Text(
+                                                        "#truth",
+                                                        style: TextStyle(
+                                                            fontSize: 15),
+                                                      )),
+                                                    ),
+                                                  ),
+                                                ),
+                                                InkWell(
+                                                  onTap: () {
+                                                    Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder:
+                                                                (context) =>
+                                                                    TagScreen(
+                                                                      tag:
+                                                                          "#poetry",
+                                                                    )));
+                                                  },
+                                                  child: Container(
+                                                    height: 20,
+                                                    width: 80,
+                                                    decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(5),
+                                                        color: Color.fromARGB(
+                                                            255,
+                                                            151,
+                                                            207,
+                                                            252)),
+                                                    child: Center(
+                                                        child: Text(
+                                                      "#poetry",
+                                                      style: TextStyle(
+                                                          fontSize: 15),
+                                                    )),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            Row(
+                                              children: [
+                                                InkWell(
+                                                  onTap: () {
+                                                    Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (context) =>
+                                                                TagScreen(
+                                                                    tag:
+                                                                        "#love")));
+                                                  },
+                                                  child: Container(
+                                                    height: 20,
+                                                    width: 65,
+                                                    decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(5),
+                                                        color: Color.fromARGB(
+                                                            255,
+                                                            151,
+                                                            207,
+                                                            252)),
+                                                    child: Center(
+                                                        child: Text(
+                                                      "#love",
+                                                      style: TextStyle(
+                                                          fontSize: 15),
+                                                    )),
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 10, right: 10),
+                                                  child: InkWell(
+                                                    onTap: () {
+                                                      Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                              builder: (context) =>
+                                                                  TagScreen(
+                                                                      tag:
+                                                                          "#lifestyle")));
+                                                    },
+                                                    child: Container(
+                                                      height: 20,
+                                                      width: 85,
+                                                      decoration: BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(5),
+                                                          color: Color.fromARGB(
+                                                              255,
+                                                              151,
+                                                              207,
+                                                              252)),
+                                                      child: Center(
+                                                          child: Text(
+                                                        "#lifestyle",
+                                                        style: TextStyle(
+                                                            fontSize: 15),
+                                                      )),
+                                                    ),
+                                                  ),
+                                                ),
+                                                InkWell(
+                                                  onTap: () {
+                                                    Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (context) =>
+                                                                TagScreen(
+                                                                    tag:
+                                                                        "#happiness")));
+                                                  },
+                                                  child: Container(
+                                                    height: 20,
+                                                    width: 100,
+                                                    decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(5),
+                                                        color: Color.fromARGB(
+                                                            255,
+                                                            151,
+                                                            207,
+                                                            252)),
+                                                    child: Center(
+                                                        child: Text(
+                                                      "#happiness",
+                                                      style: TextStyle(
+                                                          fontSize: 15),
+                                                    )),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        )
+                                      : Container()
                                 ],
                               ),
                             ),
@@ -236,10 +441,22 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.only(left: 180.0),
-                                    child: Text(
-                                      " - ${_quotesList[index]['author']}",
-                                      style: TextStyle(
-                                        fontSize: 20,
+                                    child: InkWell(
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    AuthorScreen(
+                                                        author:
+                                                            _quotesList[index]
+                                                                ['author'])));
+                                      },
+                                      child: Text(
+                                        " - ${_quotesList[index]['author']}",
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -262,10 +479,10 @@ class _HomeScreenState extends State<HomeScreen> {
           ]),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: sheet,
-        child: const Icon(Icons.add),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: sheet,
+      //   child: const Icon(Icons.add),
+      // ),
     );
   }
 }
